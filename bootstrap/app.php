@@ -66,6 +66,10 @@ $app->singleton(
 |
 */
 
+$app->middleware([
+    App\Http\Middleware\AuthenticateAccess::class
+]);
+
 // $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
