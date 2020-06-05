@@ -19,7 +19,7 @@ class CreateFilesTable extends Migration
             $table->string('nameEncrypted');
             $table->string('fileExtension');
             $table->string('url');
-            $table->integer('idReport');
+            $table->integer('report_id');
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@ class File extends Model
         'nameEncrypted',
         'fileExtension',
         'url',
-        'idReport',
+        'report_id',
     ];
 
     /**
@@ -25,5 +25,8 @@ class File extends Model
      * @var array
      */
     protected $hidden = [
+        'nameOrigin',
+        'nameEncrypted',
+        'fileExtension',
     ];
 }

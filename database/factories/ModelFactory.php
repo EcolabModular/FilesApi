@@ -17,6 +17,6 @@ $factory->define(App\File::class, function (Faker\Generator $faker) {
         'nameEncrypted' => str_random(10),
         'fileExtension' => $faker->randomElement(['.pdf','.doc','.ppt']),
         'url' => str_random(15),
-        'idReport' => $faker->randomDigitNot(0),
+        'report_id' => $faker->randomDigitNot(0),
     ];
 });

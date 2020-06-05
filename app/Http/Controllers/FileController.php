@@ -29,7 +29,7 @@ class FileController extends Controller
     {
         $files = File::all();
 
-        return $this->successResponse($files);
+        return $this->showAll($files);
     }
 
     /**
@@ -43,7 +43,7 @@ class FileController extends Controller
 
         $rules = [
             'file' => 'required|mimes:pdf,doc,docx',
-            'idReport' => 'required|min:1',
+            'report_id' => 'required|min:1',
         ];
         
         $this->validate($request, $rules);
@@ -61,8 +61,8 @@ class FileController extends Controller
                     'nameOrigin' => $original_filename_arr[0],
                     'nameEncrypted' => $filename_encrypted,
                     'fileExtension' => $file_ext,
-                    'url' => $destination_path . $fileReport,
-                    'idReport'=> $request['idReport'],
+                    'url' => url('/') . "/reportfiles/" . $fileReport,
+                    'report_id'=> $request['idReport'],
                 ]);
                 return $this->successResponse($File, Response::HTTP_CREATED);
             } else {
@@ -93,7 +93,7 @@ class FileController extends Controller
 
         $rules = [
             'file' => 'mimes:pdf,doc,docx',
-            'idReport' => 'required|min:1',
+            'report_id' => 'required|min:1',
         ];
 
         $this->validate($request, $rules);
@@ -112,19 +112,19 @@ class FileController extends Controller
             if ($request->file('file')->move($destination_path, $fileReport)) {
 
                 /** ELIMINAR ARCHIVO */
-                unlink($File->url);
+                unlink('./reportfiles/' . $File->nameEncrypted . "." . $File->fileExtension);
 
                 $File->nameOrigin = $original_filename_arr[0];
                 $File->nameEncrypted = $filename_encrypted;
                 $File->fileExtension = $file_ext;
-                $File->url = $destination_path . $fileReport;
-                $File->idReport = $request['idReport'];
+                $File->url = url('/') . "/reportfiles/" . $fileReport;
+                $File->report_id = $request['idReport'];
 
             } else {
                 return $this->errorResponse('Cannot upload file', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         }else{
-            $File->idReport = $request['idReport'];
+            $File->report_id = $request['idReport'];
         }
 
         $File->save();
@@ -142,7 +142,7 @@ class FileController extends Controller
         $File = File::findOrFail($File);
 
         /** ELIMINAR ARCHIVO */
-        unlink($File->url);
+        unlink('./reportfiles/' . $File->nameEncrypted . "." . $File->fileExtension);
 
         $File->delete();
 
