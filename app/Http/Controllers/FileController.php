@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\PDF;
 use App\File;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -16,9 +18,11 @@ class FileController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    protected $pdf;
+
+    public function __construct(PDF $pdf)
     {
-        //
+        $this->pdf = $pdf;
     }
 
     /**
@@ -30,6 +34,22 @@ class FileController extends Controller
         $files = File::all();
 
         return $this->showAll($files);
+    }
+
+    /**
+     * Return files list
+     * @return Illuminate\Http\Response
+     */
+    public function test()
+    {
+        $this->pdf->AddPage();
+        $this->pdf->SetFont('Courier', 'B', 18);
+        $this->pdf->Cell(50, 25, 'Hello World!');
+
+        //save file
+        Storage::disk('files')->put('test.pdf', $this->pdf->Output('S'));
+        
+        return $this->successResponse('test.pdf', Response::HTTP_CREATED);
     }
 
     /**
