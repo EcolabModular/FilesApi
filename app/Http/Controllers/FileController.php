@@ -136,7 +136,6 @@ class FileController extends Controller
             }else{
                 $this->pdf->InsertMultiCell($this->pdf,190,5,"Ninguna/Observación",'C');
             }
-            //$this->pdf->InsertMultiCell($this->pdf,190,5,$fields[$i]->description,'C'); // REMPLAZAR POR REQUEST ($request->field)
             $totalItems++;
         }
         //save file
@@ -144,7 +143,8 @@ class FileController extends Controller
 
         Storage::disk('files')->put($filename_encrypted.'.pdf', $this->pdf->Output('S'));
 
-        
+        DB::connection('mysql2')->update("UPDATE reports SET status = :status WHERE id = :id",['status' => 'atendido','id'=>$request->report_id]);
+
         $File = File::create([
             'nameOrigin' => 'ecolab',
             'nameEncrypted' => $filename_encrypted,
