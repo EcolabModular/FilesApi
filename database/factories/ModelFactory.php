@@ -18,5 +18,6 @@ $factory->define(App\File::class, function (Faker\Generator $faker) {
         'fileExtension' => $faker->randomElement(['.pdf','.doc','.ppt']),
         'url' => str_random(15),
         'report_id' => $faker->randomDigitNot(0),
+        'item_id' => $faker->randomDigitNot(0),
     ];
 });

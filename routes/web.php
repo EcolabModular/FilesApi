@@ -12,7 +12,7 @@
 */
 
 $router->get('/files', 'FileController@index');
-$router->get('/files/test', 'FileController@test');
+$router->post('/files/makereport', 'FileController@makeReport');
 $router->post('/files', 'FileController@store');
 $router->get('/files/{file}', 'FileController@show');
 $router->put('/files/{file}', 'FileController@update');

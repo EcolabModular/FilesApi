@@ -16,7 +16,9 @@ class File extends Model
         'nameEncrypted',
         'fileExtension',
         'url',
+        'user_id',
         'report_id',
+        'item_id',
     ];
 
     /**
